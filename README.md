@@ -7,6 +7,18 @@ This is a simple scripts to automatise work witch [Laradock](https://laradock.io
 This script development for usage witch git, docker and docker-compose utilities.
 You may run it from your PATH as Unix BASH or Windows CMD script by `goodra` name.
 Specific project Laradock initialised into your PWD in `./goodra` or user specific `~/.goodra` catalog by PWD basename.
+By default, `DATA_PATH_HOST` configured to save state in Laradock project place.
+Scrip defines some Laradock environments:
+
+* `APP_CODE_PATH_HOST` as current PWD.
+* `COMPOSE_PROJECT_NAME` as project name.
+* `PHP_IDE_CONFIG` preset `serverName` as project name.
+
+Also, append new environments to Laradock project:
+
+* `LARADOCK_ORIGIN` is Laradock source repository link.
+* `LARADOCK_BRANCH` is Laradock source repository tag.
+* `LARADOCK_SERVICES` is Laradock services list for up. By default, `workspace` only.
 
 ### Commands
 
@@ -52,6 +64,7 @@ or
 goodra myLaradock
 ```
 
+Against `myLaradock` you may specific your own Laradock project name.
 This command also initialised Laradock, but for user specific `~/.goodra/myLaradock` catalog.
 Command use `LARADOCK_ORIGIN` and `LARADOCK_BRANCH` environments from Laradock `.env`.
 
