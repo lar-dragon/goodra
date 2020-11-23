@@ -24,7 +24,7 @@ function export_envs() {
 
         value=${preset:-$(eval "echo ${temp}")}
 
-        [[ "$value" =~ ${isPath} ]] && value="\\${value}"
+        [[ "$value" =~ ${isPath} ]] && value="/${value}"
 
         eval "export $key=\"${value}\"";
     done < "${1:-".env"}"
@@ -69,8 +69,8 @@ function goodra() {
     if [ -x "${project_path}/${command}.sh" ]
     then
         pushd "${project_path}" || exit 1
-        export APP_CODE_PATH_HOST="${work_path}"
-        export COMPOSE_PROJECT_NAME="${project_name}"
+        export APP_CODE_PATH_HOST=${work_path}
+        export COMPOSE_PROJECT_NAME=${project_name}
         export PHP_IDE_CONFIG="serverName=${project_name}"
         eval "./${command}.sh ${*:4}"
         popd || exit 1
