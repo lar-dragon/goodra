@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-eval "docker-compose exec -u laradock workspace ${*:-"bash"}"
+docker-compose exec -u laradock workspace "${1:-bash}" ${@:2}

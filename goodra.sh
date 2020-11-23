@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+function greeting() {
+    local greetings
+
+    greetings=(
+        "Hail Goodra"
+        "Goodra Dominatus"
+    )
+
+    echo "${greetings["$((RANDOM % ${#greetings[@]}))"]}"
+    echo "Doing ${2} on ${1}"
+    [ -n "${3}" ] && echo "Witch arguments" ${@:3}
+}
+
 function export_envs() {
     local key
     local temp
@@ -26,7 +39,7 @@ function export_envs() {
 
         [[ "$value" =~ ${isPath} ]] && value="/${value}"
 
-        eval "export $key=\"${value}\"";
+        eval "export ${key}=\${value}";
     done < "${1:-".env"}"
 }
 
@@ -35,6 +48,7 @@ function goodra() {
     local script_path
     local project
     local command
+    local -a arguments
     local project_path
     local project_name
     local work_path_env
@@ -45,6 +59,9 @@ function goodra() {
     script_path="$(dirname "${1}")"
     project=${2:-"."}
     command=${3:-"init"}
+    arguments=${@:4}
+
+    greeting "${project}" "${command}" ${arguments[@]}
 
     if [ "${project}" = "." ]
     then
@@ -72,11 +89,11 @@ function goodra() {
         export APP_CODE_PATH_HOST=${work_path}
         export COMPOSE_PROJECT_NAME=${project_name}
         export PHP_IDE_CONFIG="serverName=${project_name}"
-        eval "./${command}.sh ${*:4}"
+        "./${command}.sh" ${arguments[@]}
         popd || exit 1
     else
         echo "Command \"${command}\" not defined"
     fi
 }
 
-eval "goodra ${0} ${*}"
+goodra "${0}" ${@}
